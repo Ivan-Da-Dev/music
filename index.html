@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chill Player</title>
+    <link rel="icon" href="./music.svg">
+</head>
+
+<style>
+  *{
+    font-family: sans-serif;
+  }
+
+  html{
+    background-color: black;
+    user-select: none;
+    text-decoration: none;
+  }
+
+  audio{
+    right: 8px;
+    top: 550px;
+    position: absolute;
+    box-shadow: 5px 5px 18px black;
+    border-radius: 200px;
+    width: 99%;
+  }
+
+  #snowflakeContainer {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    display: none;
+  }
+
+  .snowflake {
+    position: fixed;
+    background-color: #ffff;
+    user-select: none;
+    z-index: 1000;
+    pointer-events: none;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+  }
+
+  img#image{
+    top: 40px;
+    right: 35%;
+    position: absolute;
+    border-radius: 50%;
+    clip: rect(0px,100%,100%,0px);
+    max-height: 400px;
+    max-width: 400px;
+    min-width: 400px;
+    min-height: 400px;
+    background-color: white;
+    z-index: 0;
+    object-fit: cover;
+  }
+
+  div.backgroundCircle{
+    max-height: 410px;
+    max-width: 410px;
+    min-width: 410px;
+    min-height: 410px;
+    top: 35px;
+    right: 34.6%;
+    border-radius: 50%;
+    background-image: linear-gradient(blue, purple,red,orange);
+    position: absolute;
+    z-index: -1;
+  }
+
+  .button button{
+    height: 50px;
+    width: 50px;
+    box-shadow: 0px 0px 18px black;
+    border-color: black;
+    background-color: rgb(51, 48, 48);
+    top: 470px;
+    right: 48%;
+    position: absolute;
+    border-radius: 10px;
+  }
+
+  .button button:hover{
+    background-color: #4a8f62;
+    border-color: #4a8f62;
+  }
+
+  h2#title{
+    color: wheat;
+    font-size: 40px;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0px 0px 20px black;
+  }
+
+  @media only screen and (max-width: 812px) {
+  img#image{
+    right: 10%;
+  }
+
+  div.backgroundCircle{
+    visibility: hidden;
+    height: 0px;
+    width: 0px;
+  }
+
+  audio{
+    right: 2px;
+  }
+}
+</style>
+
+<body onload="change()">
+  <div id="snowflakeContainer">
+    <span class="snowflake"></span>
+  </div>
+
+  <img id="image" src="https://i.pinimg.com/originals/ab/45/bb/ab45bb4451536652faca51ae4f42d5dd.gif"></img>
+  <div class="backgroundCircle" id="backgroundCircle"></div>
+
+  <h2 id="title"></h2>
+  <audio controls loop src="" type="audio/mp3" class="player" id="audio"></audio>
+
+  <div class="button">
+  <button onclick="changeIMG()"></button>
+  </div>
+</body>
+
+<script>
+  var i = 0
+  setInterval(() => {
+    document.getElementById('backgroundCircle').style.transform = `rotate(${i}deg)`
+    i = i + 1
+
+    if(i > 360){ i = 0 }
+  }, 1);
+
+  function gen(){
+    var his = {}
+
+    var songs =[
+    {
+      name: "Adventure Time Remix",
+      file: 'adventure.mp3',
+    },
+
+    {
+      name: "Cake By The Ocean",
+      file: 'cake.mp3',
+    },
+
+    {
+      name: "I Like Me Better",
+      file: 'ilikemebetter.mp3',
+    },
+
+    {
+      name: "Paris In The Rain",
+      file: 'paris.mp3',
+    },
+
+    {
+      name: "Who I Am",
+      file: 'whoiam.mp3',
+    },
+
+    {
+      name: "Stressed Out",
+      file: "stressedOUT.mp3"
+    },
+
+    {
+      name: "Psycho",
+      file: "psycho.mp3"
+    },
+
+    {
+      name: "Wait",
+      file: "wait.mp3"
+    },
+
+    {
+      name: "That's What I Like",
+      file: "whatilike.mp3"
+    },
+
+    {
+      name: "Circles",
+      file: "circles.mp3"
+    }
+  ]
+
+  let res;
+  if(his){
+    res = songs.filter(s => s.name !== his.name)[Math.floor(Math.random() * (songs.length - 1))];
+  } else {
+    res = songs[Math.floor(Math.random() * songs.length)];
+  }
+
+  his = res
+  return res
+}
+
+  function changeIMG(){
+  var obj = gen()
+
+  document.getElementById('audio').src = `./songs/${obj.file}`
+  document.getElementById('title').innerHTML = obj.name
+  }
+
+  function change(){
+  var obj = gen()
+
+  document.getElementById('audio').src = `./songs/${obj.file}`
+  document.getElementById('title').innerHTML = obj.name
+  }
+
+  // Array to store our Snowflake objects
+  var snowflakes = [];
+
+  // Global variables to store our browser's window size
+  var browserWidth;
+  var browserHeight;
+
+  // Specify the number of snowflakes you want visible
+  var numberOfSnowflakes = 100;
+
+  // Flag to reset the position of the snowflakes
+  var resetPosition = false;
+
+  // Handle accessibility
+  var enableAnimations = false;
+  var reduceMotionQuery = matchMedia("(prefers-reduced-motion)");
+
+  // Handle animation accessibility preferences
+  function setAccessibilityState() {
+    if (reduceMotionQuery.matches) {
+      enableAnimations = false;
+    } else {
+      enableAnimations = true;
+    }
+  }
+  setAccessibilityState();
+
+  reduceMotionQuery.addListener(setAccessibilityState);
+
+  //
+  // It all starts here...
+  //
+  function setup() {
+    if (enableAnimations) {
+      window.addEventListener("DOMContentLoaded", generateSnowflakes, false);
+      window.addEventListener("resize", setResetFlag, false);
+    }
+  }
+  setup();
+
+  //
+  // Constructor for our Snowflake object
+  //
+  function Snowflake(element, speed, xPos, yPos) {
+    // set initial snowflake properties
+    this.element = element;
+    this.speed = speed;
+    this.xPos = xPos;
+    this.yPos = yPos;
+    this.scale = 1;
+
+    // declare variables used for snowflake's motion
+    this.counter = 0;
+    this.sign = Math.random() < 0.5 ? 1 : -1;
+
+    // setting an initial opacity and size for our snowflake
+    this.element.style.opacity = (.1 + Math.random()) / 3;
+  }
+
+  //
+  // The function responsible for actually moving our snowflake
+  //
+  Snowflake.prototype.update = function () {
+    // using some trigonometry to determine our x and y position
+    this.counter += this.speed / 5000;
+    this.xPos += this.sign * this.speed * Math.cos(this.counter) / 40;
+    this.yPos += Math.sin(this.counter) / 40 + this.speed / 30;
+    this.scale = .5 + Math.abs(10 * Math.cos(this.counter) / 20);
+
+    // setting our snowflake's position
+    setTransform(Math.round(this.xPos), Math.round(this.yPos), this.scale, this.element);
+
+    // if snowflake goes below the browser window, move it back to the top
+    if (this.yPos > browserHeight) {
+      this.yPos = -50;
+    }
+  }
+
+  //
+  // A performant way to set your snowflake's position and size
+  //
+  function setTransform(xPos, yPos, scale, el) {
+    el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0) scale(${scale}, ${scale})`;
+  }
+
+  //
+  // The function responsible for creating the snowflake
+  //
+  function generateSnowflakes() {
+
+    // get our snowflake element from the DOM and store it
+    var originalSnowflake = document.querySelector(".snowflake");
+
+    // access our snowflake element's parent container
+    var snowflakeContainer = originalSnowflake.parentNode;
+    snowflakeContainer.style.display = "block";
+
+    // get our browser's size
+    browserWidth = document.documentElement.clientWidth;
+    browserHeight = document.documentElement.clientHeight;
+
+    // create each individual snowflake
+    for (var i = 0; i < numberOfSnowflakes; i++) {
+
+      // clone our original snowflake and add it to snowflakeContainer
+      var snowflakeClone = originalSnowflake.cloneNode(true);
+      snowflakeContainer.appendChild(snowflakeClone);
+
+      // set our snowflake's initial position and related properties
+      var initialXPos = getPosition(50, browserWidth);
+      var initialYPos = getPosition(50, browserHeight);
+      var speed = 100 + Math.random() * 40; //the speed
+
+      // create our Snowflake object
+      var snowflakeObject = new Snowflake(snowflakeClone,
+        speed,
+        initialXPos,
+        initialYPos);
+      snowflakes.push(snowflakeObject);
+    }
+
+    // remove the original snowflake because we no longer need it visible
+    snowflakeContainer.removeChild(originalSnowflake);
+
+    moveSnowflakes();
+  }
+
+  //
+  // Responsible for moving each snowflake by calling its update function
+  //
+  function moveSnowflakes() {
+
+    if (enableAnimations) {
+      for (var i = 0; i < snowflakes.length; i++) {
+        var snowflake = snowflakes[i];
+        snowflake.update();
+      }
+    }
+
+    // Reset the position of all the snowflakes to a new value
+    if (resetPosition) {
+      browserWidth = document.documentElement.clientWidth;
+      browserHeight = document.documentElement.clientHeight;
+
+      for (var i = 0; i < snowflakes.length; i++) {
+        var snowflake = snowflakes[i];
+
+        snowflake.xPos = getPosition(50, browserWidth);
+        snowflake.yPos = getPosition(50, browserHeight);
+      }
+
+      resetPosition = false;
+    }
+
+    requestAnimationFrame(moveSnowflakes);
+  }
+
+  //
+  // This function returns a number between (maximum - offset) and (maximum + offset)
+  //
+  function getPosition(offset, size) {
+    return Math.round(-1 * offset + Math.random() * (size + 2 * offset));
+  }
+
+  //
+  // Trigger a reset of all the snowflakes' positions
+  //
+  function setResetFlag(e) {
+    resetPosition = true;
+  }
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</html>
