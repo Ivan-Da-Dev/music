@@ -268,12 +268,12 @@ function loop(){
     document.getElementById('audio').loop = false
     document.getElementById('loop').style.backgroundColor = 'red'
     document.getElementById('loop').style.borderColor = 'red'
-    document.title = `${document.getElementById('title')}`
+    document.title = `${document.getElementById('title').innerHTML}`
     } else {
     document.getElementById('audio').loop = true
     document.getElementById('loop').style.backgroundColor = 'lightgreen'
     document.getElementById('loop').style.borderColor = 'lightgreen'
-    document.title = `Loop - ${document.getElementById('title')}`
+    document.title = `Loop - ${document.getElementById('title').innerHTML}`
   }
 }
 
