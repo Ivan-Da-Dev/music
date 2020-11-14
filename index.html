@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chill Player</title>
-    <link rel="icon" href="./music.svg">
+    <title>Christmas Player</title>
+    <link rel="icon" href="https://www.freeiconspng.com/uploads/christmas-tree-icon-0.png">
 </head>
 
 <style>
@@ -13,14 +13,14 @@
   }
 
   html{
-    background-color: black;
+    background-image: url("https://www.myjewishlearning.com/wp-content/uploads/2005/12/pareve-christmas.jpg");
     user-select: none;
     text-decoration: none;
   }
 
   audio{
     right: 8px;
-    top: 550px;
+    top: 90%;
     position: absolute;
     box-shadow: 5px 5px 18px black;
     border-radius: 200px;
@@ -68,36 +68,48 @@
     top: 35px;
     right: 34.6%;
     border-radius: 50%;
-    background-image: linear-gradient(blue, purple,red,orange);
+    background-image: linear-gradient(red,lightgreen,green);
     position: absolute;
     z-index: -1;
   }
 
   .button button{
-    height: 50px;
-    width: 50px;
+    font-family: sans-serif;
+    font-size: 50px;
+    color: white;
     box-shadow: 0px 0px 18px black;
-    border-color: black;
-    background-color: rgb(51, 48, 48);
-    top: 470px;
-    right: 48%;
-    position: absolute;
     border-radius: 10px;
   }
 
-  .button button:hover{
-    background-color: #4a8f62;
-    border-color: #4a8f62;
+  button#changeSong{
+    background-color: rgb(211, 24, 24);
+    top: 470px;
+    right: 49%;
+    position: absolute;
+    border-color: rgb(211, 24, 24);;
   }
 
-  h2#title{
+  button#loop{
+    background-color: red;
+    top: 470px;
+    right: 38%;
+    position: absolute;
+    border-color: red;
+  }
+
+  a#title{
+    text-align: center;
+    align-items: center;
     color: wheat;
     font-size: 40px;
-    align-items: center;
-    text-align: center;
     position: relative;
     z-index: 1;
     text-shadow: 0px 0px 20px black;
+    text-decoration: none;
+  }
+
+  a#title:hover{
+    color: rgb(247, 214, 152);
   }
 
   @media only screen and (max-width: 812px) {
@@ -114,22 +126,73 @@
   audio{
     right: 2px;
   }
+
+  button#changeSong{
+    top: 78%;
+    right: 54%;
+    position: absolute;
+  }
+
+  button#loop{
+    top: 78%;
+    right: 15%;
+    position: absolute;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  a#title{
+    font-size: 55px;
+  }
+  img#image{
+    top: 20%;
+    right: 3%;
+    max-height: 300px;
+    max-width: 300px;
+    min-width: 300px;
+    min-height: 300px;
+  }
+
+  div.backgroundCircle{
+    visibility: hidden;
+    height: 0px;
+    width: 0px;
+  }
+
+  audio{
+    right: 2px;
+  }
+
+  button#changeSong{
+    top: 58%;
+    right: 3px;
+    font-size: 85px;
+    position: absolute;
+  }
+
+  button#loop{
+    top: 70%;
+    right: 63px;
+    font-size: 85px;
+    position: absolute;
+  }
 }
 </style>
 
-<body onload="change()">
+<body onload="disLoop()">
   <div id="snowflakeContainer">
     <span class="snowflake"></span>
   </div>
 
-  <img id="image" src="https://i.pinimg.com/originals/ab/45/bb/ab45bb4451536652faca51ae4f42d5dd.gif"></img>
+  <img id="image" src="https://i.gifer.com/5fT.gif"></img>
   <div class="backgroundCircle" id="backgroundCircle"></div>
 
-  <h2 id="title"></h2>
-  <audio controls loop src="" type="audio/mp3" class="player" id="audio"></audio>
+  <a id="title" href="https://www.youtube.com/watch?v=oIKt5p3UmXg&ab_channel=MichaelBubl%C3%A9">Winter Wonderland</a>
+  <audio controls src="./songs/Michael Bublé - Winter Wonderland [Official HD].mp3" type="audio/mp3" class="player" id="audio"></audio>
 
   <div class="button">
-  <button onclick="changeIMG()"></button>
+  <button onclick="changeIMG()" id="changeSong">Change</button>
+  <button onclick="loop()" id="loop">Loop</button>
   </div>
 </body>
 
@@ -143,83 +206,98 @@
   }, 1);
 
   function gen(){
-    var his = {}
-
-    var songs =[
-    {
-      name: "Adventure Time Remix",
-      file: 'adventure.mp3',
-    },
-
-    {
-      name: "Cake By The Ocean",
-      file: 'cake.mp3',
-    },
-
-    {
-      name: "I Like Me Better",
-      file: 'ilikemebetter.mp3',
-    },
-
-    {
-      name: "Paris In The Rain",
-      file: 'paris.mp3',
-    },
-
-    {
-      name: "Who I Am",
-      file: 'whoiam.mp3',
-    },
-
-    {
-      name: "Stressed Out",
-      file: "stressedOUT.mp3"
-    },
-
-    {
-      name: "Psycho",
-      file: "psycho.mp3"
-    },
-
-    {
-      name: "Wait",
-      file: "wait.mp3"
-    },
-
-    {
-      name: "That's What I Like",
-      file: "whatilike.mp3"
-    },
-
-    {
-      name: "Circles",
-      file: "circles.mp3"
-    }
+  let file = [
+  'Michael Bublé - All I Want For Christmas Is You [Official HD]',
+  'Michael Bublé - Ave Maria [Official HD]',
+  'Michael Bublé - Blue Christmas [Official HD]',
+  'Michael Bublé - Christmas (Baby Please Come Home) [Official HD]',
+  'Michael Bublé - Cold December Night [Official HD]',
+  'Michael Bublé - Have Yourself A Merry Little Christmas [Official HD]',
+  'Michael Bublé - Holly Jolly Christmas [Official HD]',
+  "Michael Bublé - I'll Be Home For Christmas [Official HD]",
+  "Michael Bublé - It's Beginning To Look A Lot Like Christmas [Official HD Audio]",
+  'Michael Bublé - Santa Baby [Official HD]',
+  'Michael Bublé - Santa Claus Is Coming To Town [Official HD]',
+  'Michael Bublé - White Christmas [Official Animated Video]',
+  'Michael Bublé - Winter Wonderland [Official HD]',
+  'Robbie Williams - Merry Xmas Everybody ft Jamie Cullum - Lyrics Video. The Christmas Present Album'
   ]
 
-  let res;
-  if(his){
-    res = songs.filter(s => s.name !== his.name)[Math.floor(Math.random() * (songs.length - 1))];
-  } else {
-    res = songs[Math.floor(Math.random() * songs.length)];
-  }
+  let links = [
+  'https://www.youtube.com/watch?v=pw3PhhSfcQg&ab_channel=MichaelBubl%C3%A9',
+  'https://www.youtube.com/watch?v=323gz5xNZMI&ab_channel=MichaelBubl%C3%A9',
+  'https://www.youtube.com/watch?v=im2JjOhTW80&ab_channel=MichaelBubl%C3%A9',
+  'https://www.youtube.com/watch?v=mBycW6iu8GM&ab_channel=MichaelBubl%C3%A9',
+  'https://www.youtube.com/watch?v=XtB0LqyJsdA&ab_channel=MichaelBubl%C3%A9',
+  'https://www.youtube.com/watch?v=l3l83C-we-k&ab_channel=MichaelBubl%C3%A9',
+  'https://www.youtube.com/watch?v=Dkq3LD-4pmM&ab_channel=MichaelBubl%C3%A9',
+  'https://www.youtube.com/watch?v=0yhI35F2NB0&ab_channel=MichaelBubl%C3%A9',
+  'https://www.youtube.com/watch?v=QJ5DOWPGxwg&ab_channel=MichaelBubl%C3%A9',
+  'https://www.youtube.com/watch?v=JnOLam2AwXY&ab_channel=MichaelBubl%C3%A9',
+  'https://www.youtube.com/watch?v=R8CBoVc_OMI&ab_channel=MichaelBubl%C3%A9',
+  'https://www.youtube.com/watch?v=xvHQO9LT6ZI&ab_channel=MichaelBubl%C3%A9',
+  'https://www.youtube.com/watch?v=oIKt5p3UmXg&ab_channel=MichaelBubl%C3%A9',
+  'https://www.youtube.com/watch?v=mwYpoqP_V9Q&ab_channel=RobbieWilliams'
+]
 
-  his = res
-  return res
+  let res = file[Math.floor(Math.random() * file.length)];
+
+  return {
+  file:res,
+  link:links[file.indexOf(res)],
+  title:
+    res
+      .replace('[Official HD]','')
+      .replace('Robbie Williams -','')
+      .replace('Michael Bublé -','')
+      .replace('[Official Animated Video]','')
+      .replace('[Official HD Audio]','')
+      .replace(' - Lyrics Video. The Christmas Present Album','')
+    .trim()}
 }
 
-  function changeIMG(){
-  var obj = gen()
+function disLoop(){
+  document.getElementById('audio').loop = false
+}
 
-  document.getElementById('audio').src = `./songs/${obj.file}`
-  document.getElementById('title').innerHTML = obj.name
+function loop(){
+  let player = document.getElementById('audio').loop
+
+  if(player === true){
+    document.getElementById('audio').loop = false
+    document.getElementById('loop').style.backgroundColor = 'red'
+    document.getElementById('loop').style.borderColor = 'red'
+    } else {
+    document.getElementById('audio').loop = true
+    document.getElementById('loop').style.backgroundColor = 'lightgreen'
+    document.getElementById('loop').style.borderColor = 'lightgreen'
   }
+}
 
-  function change(){
+let music = document.getElementById('audio')
+  music.addEventListener('ended',function(){
+  if(document.getElementById('audio').loop === true) return;
   var obj = gen()
 
-  document.getElementById('audio').src = `./songs/${obj.file}`
-  document.getElementById('title').innerHTML = obj.name
+  music.pause();
+  music.src = `./songs/${obj.file}.mp3`;
+  music.load();
+  music.play();
+
+  document.getElementById('title').innerHTML = obj.title
+  document.getElementById('title').href = obj.link
+});
+
+  function changeIMG(){
+    var obj = gen()
+
+    music.pause();
+    music.src = `./songs/${obj.file}.mp3`;
+    music.load();
+    music.play();
+
+    document.getElementById('title').innerHTML = obj.title
+    document.getElementById('title').href = obj.link
   }
 
   // Array to store our Snowflake objects
