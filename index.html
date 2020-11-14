@@ -258,6 +258,7 @@
 
 function disLoop(){
   document.getElementById('audio').loop = false
+  document.title = `Winter Wonderland`
 }
 
 function loop(){
@@ -267,10 +268,12 @@ function loop(){
     document.getElementById('audio').loop = false
     document.getElementById('loop').style.backgroundColor = 'red'
     document.getElementById('loop').style.borderColor = 'red'
+    document.title = `${document.getElementById('title')}`
     } else {
     document.getElementById('audio').loop = true
     document.getElementById('loop').style.backgroundColor = 'lightgreen'
     document.getElementById('loop').style.borderColor = 'lightgreen'
+    document.title = `Loop - ${document.getElementById('title')}`
   }
 }
 
@@ -286,6 +289,7 @@ let music = document.getElementById('audio')
 
   document.getElementById('title').innerHTML = obj.title
   document.getElementById('title').href = obj.link
+  document.title = `${obj.title}`
 });
 
   function changeIMG(){
@@ -298,6 +302,7 @@ let music = document.getElementById('audio')
 
     document.getElementById('title').innerHTML = obj.title
     document.getElementById('title').href = obj.link
+    document.title = `${obj.title}`
   }
 
   // Array to store our Snowflake objects
